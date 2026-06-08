@@ -57,9 +57,8 @@
                 { type: 'file',   name: 'Logline',     ext: 'pdf', url: '' },
                 { type: 'file',   name: 'Personagens', ext: 'pdf', url: '' },
                 { type: 'folder', name: 'Referências', items: [
-                    { name: 'ref_01', ext: 'jpg', url: '' },
-                    { name: 'ref_02', ext: 'jpg', url: '' }
-                ]}
+                    { name: 'Historia-do-Centro-de-Sao-Paulo', ext: 'webp', url: 'assets/images/Historia-do-Centro-de-Sao-Paulo.webp' }
+                ] }
             ]
         },
         {
