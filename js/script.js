@@ -1,6 +1,5 @@
 /* =====================================================
    MINESCRIPT — script.js
-   Sem dependências externas. Navegação por estado.
 ===================================================== */
 
 (function () {
@@ -49,42 +48,46 @@
     };
 
     /* ─── Dados dos projetos ─── */
-    const projects = {
-        1: {
-            title: 'Projeto 1',
-            description: 'Descrição breve do projeto.',
+    const projects = [
+        {
+            id: 1,
+            title: 'Untitled #1',
             tags: ['roteiro', 'draft'],
             files: [
-                { name: 'Roteiro_Final', ext: 'pdf', available: true,  action: () => alert('Download iniciado...') },
+                { name: 'Roteiro_Final', ext: 'pdf', url: 'assets/files/roteiro_final.pdf' }
             ]
         },
-        2: {
-            title: 'Projeto 2',
-            description: 'Descrição breve do projeto.',
+        {
+            id: 2,
+            title: 'Untitled #2',
             tags: ['em andamento'],
             files: [
-                { name: 'Roteiro', ext: 'pdf', available: false },
+                { name: 'Roteiro', ext: 'pdf', url: '' }
             ]
         },
-        3: {
-            title: 'Projeto 3',
-            description: 'Descrição breve do projeto.',
+        {
+            id: 3,
+            title: 'Untitled #3',
             tags: ['em andamento'],
             files: [
-                { name: 'Roteiro', ext: 'pdf', available: false },
+                { name: 'Roteiro', ext: 'pdf', url: '' }
             ]
         }
-    };
+    ];
 
     /* ─── Conteúdo de páginas estáticas ─── */
     const staticPages = {
         sobre: {
             title: 'Sobre',
-            body: `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Preencha esta seção com informações sobre você.</p>`
+            body: `
+                <p>Trabalho com TI há uns 3 anos e, faz um tempo, comecei a desenvolver algumas ideias de roteiro que ficavam só na cabeça.</p>
+                <p>Em algum momento pareceu natural misturar os dois — usar o que sei de tecnologia pra ajudar nesse processo criativo. Esse site é basicamente isso: um lugar pra organizar e compartilhar o que estou construindo.</p>
+                <p>Ainda é tudo muito no começo, mas a ideia é ir preenchendo conforme as coisas tomam forma.</p>
+            `
         },
         contato: {
             title: 'Contato',
-            body: `<p>Email: <a href="mailto:voce@email.com" style="color: var(--accent)">voce@email.com</a></p>`
+            body: `<p>Em breve. Ainda estou definindo por onde prefiro ser encontrado.</p>`
         }
     };
 
@@ -126,13 +129,13 @@
     /* ─── Breadcrumb ─── */
     function setBreadcrumb(label) {
         if (label) {
-            breadSep.style.display  = 'inline';
+            breadSep.style.display   = 'inline';
             breadCurrent.textContent = label;
-            breadRoot.style.color   = 'var(--text-faint)';
+            breadRoot.style.color    = 'var(--text-faint)';
         } else {
-            breadSep.style.display  = 'none';
+            breadSep.style.display   = 'none';
             breadCurrent.textContent = '';
-            breadRoot.style.color   = 'var(--text-muted)';
+            breadRoot.style.color    = 'var(--text-muted)';
         }
     }
 
@@ -155,8 +158,8 @@
             li.classList.toggle('active', li.dataset.page === 'home')
         );
 
-        const folders = Object.entries(projects).map(([id, proj]) => `
-            <div class="folder" data-project="${id}" role="button" tabindex="0"
+        const folders = projects.map(proj => `
+            <div class="folder" data-project="${proj.id}" role="button" tabindex="0"
                  aria-label="Abrir ${proj.title}">
                 <div class="folder-icon">${SVG.folder}</div>
                 <span class="folder-label">${proj.title}</span>
@@ -166,42 +169,42 @@
         renderTo(`<div class="projects-grid">${folders}</div>`);
 
         mainContent.querySelectorAll('.folder').forEach(el => {
-            el.addEventListener('click', () => openProject(el.dataset.project));
+            el.addEventListener('click', () => openProject(Number(el.dataset.project)));
             el.addEventListener('keydown', e => {
-                if (e.key === 'Enter' || e.key === ' ') openProject(el.dataset.project);
+                if (e.key === 'Enter' || e.key === ' ') openProject(Number(el.dataset.project));
             });
         });
     }
 
     /* ─── Página de projeto ─── */
     function openProject(id) {
-        const proj = projects[id];
+        const proj = projects.find(p => p.id === id);
         if (!proj) return;
 
         state = { page: 'project', projectId: id };
         backBtn.style.display = 'inline-flex';
         setBreadcrumb(proj.title);
 
-        const tagsHtml = proj.tags.map(t => `<span class="badge">${t}</span>`).join('');
+        const tagsHtml = (proj.tags || []).map(t => `<span class="badge">${t}</span>`).join('');
 
-        const filesHtml = proj.files.length
+        const filesHtml = proj.files && proj.files.length
             ? proj.files.map(f => {
+                const hasUrl = f.url && f.url.trim() !== '';
                 const fileName = `${f.name}.${f.ext}`;
-                if (f.available) {
+                if (hasUrl) {
                     return `
-                        <div class="file-item" role="button" tabindex="0"
-                             aria-label="Download ${fileName}">
+                        <a class="file-item" href="${f.url}" target="_blank" rel="noopener"
+                           aria-label="Abrir ${fileName}">
                             <div class="file-icon">${SVG.pdf}</div>
                             <div class="file-info">
                                 <div class="file-name">${f.name}</div>
                                 <div class="file-type">${f.ext}</div>
                             </div>
                             <span class="file-action">${SVG.download}</span>
-                        </div>`;
+                        </a>`;
                 } else {
                     return `
-                        <div class="file-item" role="button" tabindex="0"
-                             aria-label="${fileName} — em breve"
+                        <div class="file-item" aria-label="${fileName} — em breve"
                              style="opacity: 0.45; cursor: default;" aria-disabled="true">
                             <div class="file-icon">${SVG.pdf}</div>
                             <div class="file-info">
@@ -218,24 +221,12 @@
             <div class="project-view">
                 <div class="project-header">
                     <h1 class="project-title">${proj.title}</h1>
-                    <div class="project-meta">
-                        ${tagsHtml}
-                    </div>
+                    <div class="project-meta">${tagsHtml}</div>
                 </div>
                 <p class="project-section-label">arquivos</p>
                 <div class="files-grid">${filesHtml}</div>
             </div>
         `);
-
-        /* Eventos de clique nos arquivos disponíveis */
-        mainContent.querySelectorAll('.file-item:not([aria-disabled])').forEach((el, idx) => {
-            const file = proj.files.filter(f => f.available)[idx];
-            if (!file) return;
-            el.addEventListener('click', () => file.action?.());
-            el.addEventListener('keydown', e => {
-                if (e.key === 'Enter' || e.key === ' ') file.action?.();
-            });
-        });
     }
 
     /* ─── Páginas estáticas ─── */
