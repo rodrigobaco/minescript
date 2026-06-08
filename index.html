@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MineScript — Portfólio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <header>
+        <button id="menu-toggle" class="menu-toggle" aria-label="Abrir menu">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="logo">
+            <span class="logo-bracket">[</span>MineScript<span class="logo-bracket">]</span>
+        </div>
+        <div class="header-right"></div>
+    </header>
+
+    <nav id="sidebar" class="sidebar" aria-hidden="true">
+        <div class="sidebar-header">
+            <span class="sidebar-label">navegação</span>
+        </div>
+        <ul role="menu">
+            <li role="menuitem" data-page="home" class="active">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                Início
+            </li>
+            <li role="menuitem" data-page="sobre">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Sobre
+            </li>
+            <li role="menuitem" data-page="contato">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                Contato
+            </li>
+        </ul>
+    </nav>
+
+    <div id="overlay" class="overlay" aria-hidden="true"></div>
+
+    <div class="toolbar">
+        <button id="back-btn" class="back-btn" style="display:none" aria-label="Voltar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+            Voltar
+        </button>
+        <nav class="breadcrumb" aria-label="Localização atual">
+            <span id="breadcrumb-root">projetos</span>
+            <span id="breadcrumb-sep" style="display:none"> / </span>
+            <span id="breadcrumb-current"></span>
+        </nav>
+    </div>
+
+    <main id="main-content" class="main-content" role="main">
+        <!-- JS injeta aqui -->
+    </main>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
