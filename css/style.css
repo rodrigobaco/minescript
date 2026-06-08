@@ -1,0 +1,487 @@
+/* =====================================================
+   MINESCRIPT — CSS
+   Estética: terminal/editorial minimalista
+   Fonte: Space Mono (display) + DM Sans (corpo)
+===================================================== */
+
+/* Reset & Base */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg:          #0e0e0e;
+    --bg-surface:  #161616;
+    --bg-card:     #1c1c1c;
+    --border:      #2a2a2a;
+    --border-hover:#3d3d3d;
+    --accent:      #f0c040;
+    --accent-dim:  #a07c18;
+    --text-primary:#e8e8e8;
+    --text-muted:  #888;
+    --text-faint:  #555;
+    --sidebar-w:   260px;
+    --header-h:    58px;
+    --toolbar-h:   42px;
+    --radius:      6px;
+    --radius-lg:   10px;
+    --transition:  0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* ==================== HEADER ==================== */
+header {
+    height: var(--header-h);
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    position: relative;
+    z-index: 300;
+    flex-shrink: 0;
+}
+
+.menu-toggle {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: var(--radius);
+    transition: background var(--transition);
+}
+
+.menu-toggle:hover { background: var(--bg-card); }
+.menu-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.menu-toggle span {
+    display: block;
+    width: 20px;
+    height: 1.5px;
+    background: var(--text-primary);
+    transition: transform var(--transition), opacity var(--transition);
+}
+
+body.menu-open .menu-toggle span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+body.menu-open .menu-toggle span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+body.menu-open .menu-toggle span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+.logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text-primary);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.logo-bracket {
+    color: var(--accent);
+    font-weight: 400;
+}
+
+.header-right { width: 44px; }
+
+/* ==================== SIDEBAR ==================== */
+.sidebar {
+    position: fixed;
+    top: var(--header-h);
+    left: calc(-1 * var(--sidebar-w));
+    bottom: 0;
+    width: var(--sidebar-w);
+    background: var(--bg-surface);
+    border-right: 1px solid var(--border);
+    z-index: 250;
+    display: flex;
+    flex-direction: column;
+    transition: left var(--transition);
+    padding: 24px 0;
+}
+
+.sidebar.active { left: 0; }
+
+.sidebar-header {
+    padding: 0 20px 16px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 8px;
+}
+
+.sidebar-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0 12px;
+}
+
+.sidebar li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-muted);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background var(--transition), color var(--transition);
+    margin-bottom: 2px;
+    user-select: none;
+}
+
+.sidebar li svg { flex-shrink: 0; }
+
+.sidebar li:hover {
+    background: var(--bg-card);
+    color: var(--text-primary);
+}
+
+.sidebar li.active {
+    background: var(--bg-card);
+    color: var(--accent);
+    border-left: 2px solid var(--accent);
+    padding-left: 10px;
+}
+
+/* ==================== OVERLAY ==================== */
+.overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 200;
+    backdrop-filter: blur(2px);
+}
+
+.overlay.active { display: block; }
+
+/* ==================== TOOLBAR ==================== */
+.toolbar {
+    height: var(--toolbar-h);
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 12px;
+    flex-shrink: 0;
+    z-index: 100;
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: border-color var(--transition), color var(--transition), background var(--transition);
+}
+
+.back-btn:hover {
+    border-color: var(--border-hover);
+    color: var(--text-primary);
+    background: var(--bg-card);
+}
+
+.back-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.breadcrumb {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--text-faint);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+#breadcrumb-root { color: var(--text-muted); }
+
+#breadcrumb-sep { color: var(--text-faint); }
+
+#breadcrumb-current {
+    color: var(--accent);
+    font-size: 12px;
+}
+
+/* ==================== MAIN CONTENT ==================== */
+.main-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 36px 40px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+}
+
+.main-content::-webkit-scrollbar { width: 4px; }
+.main-content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* ==================== HOME — GRID DE PROJETOS ==================== */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 140px);
+    gap: 8px;
+    justify-content: start;
+}
+
+/* ==================== PASTA ==================== */
+.folder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 12px 12px;
+    border-radius: var(--radius-lg);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background var(--transition), border-color var(--transition), transform var(--transition);
+    user-select: none;
+}
+
+.folder:hover {
+    background: var(--bg-card);
+    border-color: var(--border);
+    transform: translateY(-2px);
+}
+
+.folder:active { transform: translateY(0); }
+
+.folder-icon {
+    width: 64px;
+    height: 64px;
+    position: relative;
+    flex-shrink: 0;
+}
+
+/* Ícone de pasta SVG inline */
+.folder-icon svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+}
+
+.folder-label {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.3;
+    max-width: 120px;
+    word-break: break-word;
+    transition: color var(--transition);
+}
+
+.folder:hover .folder-label { color: var(--text-primary); }
+
+/* ==================== CONTEÚDO DE PROJETO ==================== */
+.project-view {
+    max-width: 860px;
+}
+
+.project-header {
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.project-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+}
+
+.project-meta {
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--text-faint);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.project-section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 16px;
+}
+
+/* ==================== ARQUIVOS ==================== */
+.files-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 14px 18px;
+    cursor: pointer;
+    transition: border-color var(--transition), background var(--transition), transform var(--transition);
+    min-width: 220px;
+}
+
+.file-item:hover {
+    border-color: var(--border-hover);
+    background: #222;
+    transform: translateY(-1px);
+}
+
+.file-item:active { transform: translateY(0); }
+
+.file-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--bg-surface);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+}
+
+.file-icon svg { color: var(--accent); }
+
+.file-info { flex: 1; min-width: 0; }
+
+.file-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.file-type {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    margin-top: 2px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.file-action {
+    color: var(--text-faint);
+    transition: color var(--transition);
+    flex-shrink: 0;
+}
+
+.file-item:hover .file-action { color: var(--accent); }
+
+/* ==================== BADGE ==================== */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 3px;
+    background: rgba(240, 192, 64, 0.08);
+    color: var(--accent-dim);
+    border: 1px solid rgba(240, 192, 64, 0.15);
+}
+
+/* ==================== PÁGINAS ESTÁTICAS ==================== */
+.static-page {
+    max-width: 600px;
+}
+
+.static-page h2 {
+    font-family: 'Space Mono', monospace;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.static-page p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+}
+
+/* ==================== ESTADO VAZIO ==================== */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 28px 0;
+    color: var(--text-faint);
+    font-size: 13px;
+    font-family: 'Space Mono', monospace;
+}
+
+.empty-state::before {
+    content: '—';
+    font-size: 20px;
+    color: var(--border-hover);
+}
+
+/* ==================== ANIMAÇÃO DE ENTRADA ==================== */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-up {
+    animation: fadeUp 0.28s ease both;
+}
+
+/* ==================== RESPONSIVO ==================== */
+@media (max-width: 600px) {
+    .main-content { padding: 24px 20px; }
+
+    .projects-grid { grid-template-columns: repeat(auto-fill, 110px); gap: 6px; }
+
+    .file-item { min-width: 100%; }
+
+    .logo { font-size: 14px; }
+}
