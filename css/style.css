@@ -1,10 +1,7 @@
 /* =====================================================
    MINESCRIPT — CSS
-   Estética: terminal/editorial minimalista
-   Fonte: Space Mono (display) + DM Sans (corpo)
 ===================================================== */
 
-/* Reset & Base */
 *, *::before, *::after {
     margin: 0;
     padding: 0;
@@ -30,11 +27,12 @@
     --transition:  0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-html, body {
+html {
     height: 100%;
 }
 
 body {
+    height: 100%;
     font-family: 'DM Sans', sans-serif;
     background: var(--bg);
     color: var(--text-primary);
@@ -168,7 +166,7 @@ body.menu-open .menu-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
     padding-left: 10px;
 }
 
-/* ==================== OVERLAY ==================== */
+/* ==================== OVERLAY (menu) ==================== */
 .overlay {
     display: none;
     position: fixed;
@@ -226,13 +224,8 @@ body.menu-open .menu-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
 }
 
 #breadcrumb-root { color: var(--text-muted); }
-
-#breadcrumb-sep { color: var(--text-faint); }
-
-#breadcrumb-current {
-    color: var(--accent);
-    font-size: 12px;
-}
+#breadcrumb-sep  { color: var(--text-faint); }
+#breadcrumb-current { color: var(--accent); font-size: 12px; }
 
 /* ==================== MAIN CONTENT ==================== */
 .main-content {
@@ -246,7 +239,7 @@ body.menu-open .menu-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
 .main-content::-webkit-scrollbar { width: 4px; }
 .main-content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
-/* ==================== HOME — GRID DE PROJETOS ==================== */
+/* ==================== GRID DE PROJETOS ==================== */
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, 140px);
@@ -283,7 +276,6 @@ body.menu-open .menu-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
     flex-shrink: 0;
 }
 
-/* Ícone de pasta SVG inline */
 .folder-icon svg {
     width: 100%;
     height: 100%;
@@ -303,10 +295,8 @@ body.menu-open .menu-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
 
 .folder:hover .folder-label { color: var(--text-primary); }
 
-/* ==================== CONTEÚDO DE PROJETO ==================== */
-.project-view {
-    max-width: 860px;
-}
+/* ==================== PROJETO ==================== */
+.project-view { max-width: 860px; }
 
 .project-header {
     margin-bottom: 32px;
@@ -358,6 +348,7 @@ body.menu-open .menu-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
     cursor: pointer;
     transition: border-color var(--transition), background var(--transition), transform var(--transition);
     min-width: 220px;
+    text-decoration: none;
 }
 
 .file-item:hover {
@@ -410,7 +401,6 @@ body.menu-open .menu-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
 
 .file-item:hover .file-action { color: var(--accent); }
 
-/* Pasta dentro de projeto */
 .file-item--folder {
     border-color: var(--border);
     background: var(--bg-surface);
@@ -437,9 +427,7 @@ body.menu-open .menu-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
 }
 
 /* ==================== PÁGINAS ESTÁTICAS ==================== */
-.static-page {
-    max-width: 600px;
-}
+.static-page { max-width: 600px; }
 
 .static-page h2 {
     font-family: 'Space Mono', monospace;
@@ -476,23 +464,24 @@ body.menu-open .menu-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
     color: var(--border-hover);
 }
 
-/* ==================== ANIMAÇÃO DE ENTRADA ==================== */
+/* ==================== ANIMAÇÃO ==================== */
 @keyframes fadeUp {
     from { opacity: 0; transform: translateY(10px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
-.fade-up {
-    animation: fadeUp 0.28s ease both;
-}
+.fade-up { animation: fadeUp 0.28s ease both; }
 
 /* ==================== MODAL DE PREVIEW ==================== */
 .modal {
     visibility: hidden;
     opacity: 0;
     position: fixed;
-    inset: 0;
-    z-index: 500;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -507,8 +496,11 @@ body.menu-open .menu-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
 
 .modal-overlay {
     position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.75);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.82);
     backdrop-filter: blur(4px);
 }
 
@@ -518,13 +510,13 @@ body.menu-open .menu-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
     background: var(--bg-surface);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    width: 100%;
+    width: calc(100vw - 40px);
     max-width: 900px;
-    height: 85vh;
+    height: calc(100vh - 80px);
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    animation: modalIn 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: modalIn 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes modalIn {
@@ -581,9 +573,7 @@ body.menu-open .menu-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
     background: var(--bg-card);
 }
 
-.modal-btn--close {
-    padding: 5px 8px;
-}
+.modal-btn--close { padding: 5px 8px; }
 
 .modal-btn--close:hover {
     border-color: #5a2020;
@@ -594,10 +584,9 @@ body.menu-open .menu-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
 .modal-body {
     flex: 1;
     overflow: auto;
-    padding: 16px;
+    padding: 0;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: stretch;
     background: var(--bg);
 }
 
@@ -605,20 +594,24 @@ body.menu-open .menu-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
     width: 100%;
     height: 100%;
     border: none;
-    border-radius: var(--radius);
     background: #fff;
 }
 
-@media (max-width: 600px) {
-    .modal { padding: 0; }
-    .modal-box { height: 100vh; max-width: 100%; border-radius: 0; border: none; }
+.modal-body img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+    margin: auto;
+    padding: 16px;
 }
+
+/* ==================== RESPONSIVO ==================== */
 @media (max-width: 600px) {
     .main-content { padding: 24px 20px; }
-
     .projects-grid { grid-template-columns: repeat(auto-fill, 110px); gap: 6px; }
-
     .file-item { min-width: 100%; }
-
     .logo { font-size: 14px; }
+    .modal { padding: 0; }
+    .modal-box { width: 100vw; height: 100vh; max-width: 100%; border-radius: 0; border: none; }
 }
