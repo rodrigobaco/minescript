@@ -347,10 +347,26 @@
         });
     }
 
-    function showHome() {
+    /* ─── History API ─── */
+    function pushState(urlState, url) {
+        history.pushState(urlState, '', url);
+    }
+
+    function navigate(urlState) {
+        if (!urlState) { showHome(false); return; }
+        if (urlState.page === 'project') openProject(urlState.projectId, false);
+        else if (urlState.page === 'folder') openFolder(urlState.projectId, urlState.folderName, false);
+        else if (urlState.page === 'sobre' || urlState.page === 'contato') showStaticPage(urlState.page, false);
+        else showHome(false);
+    }
+
+    window.addEventListener('popstate', e => navigate(e.state));
+
+    function showHome(push = true) {
         state = { page: 'home', projectId: null, folderName: null };
         backBtn.style.display = 'none';
         setBreadcrumb([]);
+        if (push) pushState(state, '#/');
         document.querySelectorAll('#sidebar li').forEach(li =>
             li.classList.toggle('active', li.dataset.page === 'home')
         );
@@ -370,12 +386,13 @@
         });
     }
 
-    function openProject(id) {
+    function openProject(id, push = true) {
         const proj = projects.find(p => p.id === id);
         if (!proj) return;
         state = { page: 'project', projectId: id, folderName: null };
         backBtn.style.display = 'inline-flex';
         setBreadcrumb([proj.title]);
+        if (push) pushState(state, `#/projeto/${id}`);
         const tagsHtml  = (proj.tags || []).map(t => `<span class="badge">${t}</span>`).join('');
         const itemsHtml = proj.items && proj.items.length
             ? proj.items.map(item =>
@@ -400,13 +417,14 @@
         });
     }
 
-    function openFolder(projectId, folderName) {
+    function openFolder(projectId, folderName, push = true) {
         const proj   = projects.find(p => p.id === projectId);
         const folder = proj && proj.items.find(i => i.type === 'folder' && i.name === folderName);
         if (!proj || !folder) return;
         state = { page: 'folder', projectId, folderName };
         backBtn.style.display = 'inline-flex';
         setBreadcrumb([proj.title, folder.name]);
+        if (push) pushState(state, `#/projeto/${projectId}/referencias`);
         const itemsHtml = folder.items && folder.items.length
             ? folder.items.map(f => renderFileItem(f)).join('')
             : `<div class="empty-state">Nenhuma imagem adicionada ainda.</div>`;
@@ -429,11 +447,12 @@
         else showHome();
     });
 
-    function showStaticPage(key) {
+    function showStaticPage(key, push = true) {
         const pg = staticPages[key];
         state = { page: key, projectId: null, folderName: null };
         backBtn.style.display = 'none';
         setBreadcrumb([]);
+        if (push) pushState(state, `#/${key}`);
         renderTo(`<div class="static-page"><h2>${pg.title}</h2>${pg.body}</div>`);
     }
 
