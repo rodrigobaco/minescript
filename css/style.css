@@ -93,9 +93,15 @@ body.menu-open .menu-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
     transform: translateX(-50%);
 }
 
-.logo-bracket {
+.logo-cursor {
     color: var(--accent);
+    animation: blink 1s step-end infinite;
     font-weight: 400;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
 }
 
 .header-right { width: 44px; }

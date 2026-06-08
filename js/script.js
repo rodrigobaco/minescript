@@ -58,7 +58,7 @@
                 { type: 'file',   name: 'Personagens', ext: 'pdf', url: '' },
                 { type: 'folder', name: 'Referências', items: [
                     { name: 'Historia-do-Centro-de-Sao-Paulo', ext: 'webp', url: 'assets/images/Historia-do-Centro-de-Sao-Paulo.webp' }
-                ] }
+                ]}
             ]
         },
         {
@@ -447,6 +447,27 @@
             else showStaticPage(pg);
         });
     });
+
+    /* ─── Animação de digitação no logo ─── */
+    (function typeLogo() {
+        const text    = 'MineScript';
+        const el      = document.getElementById('logo-text');
+        const cursor  = document.querySelector('.logo-cursor');
+        const bracket = document.getElementById('logo-close');
+        let i = 0;
+
+        const type = () => {
+            if (i < text.length) {
+                el.textContent += text[i++];
+                setTimeout(type, 80);
+            } else {
+                bracket.style.display = 'inline';
+                setTimeout(() => { cursor.style.display = 'none'; }, 2000);
+            }
+        };
+
+        setTimeout(type, 300);
+    })();
 
     showHome();
 
